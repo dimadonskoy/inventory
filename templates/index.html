@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inventory</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Tahoma, sans-serif;
+			text-align: right;
+			direction: rtl;
+		}
+		label[for="name"] {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			}
+
+		h1 {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			font-size: 32px;
+		}
+
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 30px;
+			background-color: #f5f5f5;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+
+		input[type=number] {
+			width: 100%;
+			padding: 10px;
+			margin: 5px 0;
+			border: none;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+
+		select {
+			width: 100%;
+			padding: 10px;
+			margin: 5px 0;
+			border: none;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+
+		input[type=submit] {
+			background-color: #5bb4fd;;
+			color: white;
+			padding: 10px 35px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 1.2rem;
+
+		}
+
+		input[type=submit]:hover {
+			background-color: #4b69f3;
+		}
+
+		@media (max-width: 500px) {
+			form {
+				padding: 10px;
+			}
+		}
+
+		h1{
+
+		text-align: center;
+
+		}
+
+		label{
+
+		text-align: center;
+
+		}
+		
+		#name {
+		font-size: 20px;
+		background-color: #5bb4fd;
+		color: hsl(0, 0%, 3%);
+		}
+
+		#signature {
+		text-align: center;
+		}
+
+		canvas {
+		border: 1px solid #ddd;
+		}
+
+		/* #signature-pad {
+		width: 100%;
+		height: 200px;
+		max-width: 500px; 
+		} */
+		#signature-pad {
+		display: inline-block;
+		margin: 0 auto;
+		}
+
+</style>
+	</style>
+</head>
+<body>
+	<!-- <img src="logo1.png" alt="Logo" style="display: block; margin: 0 auto;"> -->
+	<!-- <img src="{{url_for('static', filename='logo.png')}}" > -->
+	<h1>ספירת מלאי רכב</h1>
+	<form method="POST" enctype="multipart/form-data">
+		<label for="name" style="font-size: 20px;"><b>שם מתקין</b></label>
+		<select name="name" id="name" required>
+			<option value=""></option>
+			<option value="אדי">אדי</option>
+			<option value="אנדריי">אנדריי</option>
+			<option value="יוסי">יוסי</option>
+			<option value="נתי">נתי</option>
+			<option value="שגיא">שגיא</option>
+			<option value="פיטר">פיטר</option>
+
+		</select>
+		<br><br>
+		<label for="input1"><b>סורק ברקוד חדש</b></label>
+		<input type="number" name="input1" id="input1" required>
+		<br><br>
+		<label for="input2"><b>FingerPrint</b></label>
+		<input type="number" name="input2" id="input2" required>
+		<br><br>
+		<label for="input3"><b>VX820</b></label>
+		<input type="number" name="input3" id="input3" required>
+		<br><br>
+		<label for="input4"><b>Network switch</b></label>
+		<input type="number" name="input4" id="input4" required>
+		<br><br>
+		<label for="input5"><b>מקלדת USB</b></label>
+		<input type="number" name="input5" id="input5" required>
+		<br><br>
+		<label for="input6"><b>נתב RUT950 ללא סים</b></label>
+		<input type="number" name="input6" id="input6" required>
+		<br><br>
+		<label for="input7"><b>נתב RUT950 עם סים פעיל</b></label>
+		<input type="number" name="input7" id="input7" required>
+		<br><br>
+		<label for="input8"><b>P400</b></label>
+		<input type="number" name="input8" id="input8" required>
+		<br><br>
+		<label for="input9"><b>מדפסת</b></label>
+		<input type="number" name="input9" id="input9" required>
+		<br>
+
+		
+		<form method="POST" action="/process_form" enctype="multipart/form-data">
+		<br><br>
+		<label for="signature"><b>חתימה</b></label><br>
+		<div style="text-align: center;">
+			<canvas id="signature-pad"></canvas>
+		</div>
+		<input type="hidden" name="signature_data" id="signature-data">
+		<br>
+		<button id="clear-button" style="font-size: 18px;">נקה חתימה</button>
+		<br><br>
+		<input type="submit" value="שלח" style="display: block; margin: 0 auto;">
+		<br><br>
+		</form>
+		  
+		<script src="https://unpkg.com/signature_pad"></script>
+		<script>
+		var canvas = document.getElementById('signature-pad');
+		var signaturePad = new SignaturePad(canvas);
+		
+		var clearButton = document.getElementById('clear-button');
+		clearButton.addEventListener('click', function(e) {
+			signaturePad.clear();
+		});
+		
+		var form = document.querySelector('form');
+		form.addEventListener('submit', function(e) {
+			e.preventDefault();
+			var signatureData = signaturePad.toDataURL();
+			document.getElementById('signature-data').value = signatureData;
+			form.submit();
+		});
+		</script>
+
+	<!-- <input type="submit" value="Send" style="display: block; margin: 0 auto;"> -->
+		
+</body>
