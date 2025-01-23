@@ -18,6 +18,7 @@ else:
 
 inventory = Flask(__name__)
 
+
 @inventory.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -36,14 +37,15 @@ def index():
         document = Document()
         # set RTL direction for the document
         document.core_properties.language = 'he-IL'  # Set to Hebrew (Israel)
-        document.styles['Normal'].font.name = 'Tahoma'  # Replace with a Hebrew font name
+        # Replace with a Hebrew font name
+        document.styles['Normal'].font.name = 'Tahoma'
         document.styles['Normal'].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        document.add_heading ("ספירת מלאי רכב\n")
+        document.add_heading("ספירת מלאי רכב\n")
         document.element.rtl = True
 
         # Add a header with the current date and the name
         header = document.sections[0].header
-        
+
         # Add logo to the header
         logo_path = os.path.join(workdir, 'pics', 'logo.png')
         logo_width = Inches(1.9)
@@ -55,14 +57,14 @@ def index():
 
         # Add the current date to the header
         date_paragraph = header.add_paragraph()
-        date_paragraph.text = datetime.now().strftime('%d.%m.%Y')  # Set the text to the current date
+        date_paragraph.text = datetime.now().strftime(
+            '%d.%m.%Y')  # Set the text to the current date
         date_paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
 
         # Add the name to the header
         date_paragraph = header.add_paragraph()
         date_paragraph.text = name
         date_paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        
 
         # Add the inputs to the document
         table = document.add_table(rows=9, cols=2)
@@ -77,7 +79,6 @@ def index():
                 paragraph.style = document.styles['Normal']
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
                 paragraph.runs[0].font.size = Pt(16)
-
 
         table.cell(0, 0).text = input1
         table.cell(0, 1).text = 'סורק ברקוד חדש'
@@ -101,12 +102,13 @@ def index():
         ##############################  SIGNATURE ########################
         # Create a title paragraph for the signature
         title = document.add_paragraph(style='Normal')
-        title.add_run('\n\n\n\n:חתימת המתקין')    
+        title.add_run('\n\n\n\n:חתימת המתקין')
         file_path = os.path.join(workdir, 'files', 'signature.png')
         # Save signature as image file
         with open(file_path, 'wb') as f:
             signature_data = request.form['signature_data']
-            signature_data = signature_data.replace('data:image/png;base64,', '')
+            signature_data = signature_data.replace(
+                'data:image/png;base64,', '')
             f.write(base64.b64decode(signature_data))
 
         # Add signature image to document
@@ -117,16 +119,16 @@ def index():
         document.save(workdir + '//files//' + filename)
         filename_without_path = name + '_' + datetime.now().strftime('%d-%m-%Y') + '.docx'
 
-                
         #########################################   Send email #############################################
 
-        import email, smtplib, ssl
+        import email
+        import smtplib
+        import ssl
         from email import encoders
         from email.mime.base import MIMEBase
         from email.mime.multipart import MIMEMultipart
         from email.mime.text import MIMEText
         from email.message import EmailMessage
-
 
         subject = f"טופס ספירת מלאי רכב ({name})"
         body = "VICO Field services team"
@@ -172,9 +174,8 @@ def index():
         if os.path.exists(filename):
             os.remove(filename)
 
-
         ################################################################################
-        
+
         return '''<html>
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -193,8 +194,9 @@ def index():
         </body>
         </html>
         '''.format(filename_without_path)
-    
+
     return render_template('index.html')
 
+
 if __name__ == '__main__':
-    inventory.run(host='0.0.0.0', port=5001)
+    inventory.run(host='0.0.0.0', port=5000)

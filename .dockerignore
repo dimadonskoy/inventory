@@ -3,3 +3,12 @@
 __pycache__
 tests/
 *.md
+
+# Allow only specific files and directories
+!nginx.conf
+!inventory.py
+!requirements.txt
+!start.sh
+!templates/
+!static/
+!pics/
