@@ -5,11 +5,11 @@ FROM python:3.9-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update packages and install necessary dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv nginx-core curl dos2unix vim \
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv nginx-core curl dos2unix tzdata vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-	
+ENV TZ=Asia/Jerusalem
 
 
 # Set the working directory inside the container
