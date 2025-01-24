@@ -22,8 +22,7 @@ def run_command(command):
 # Authenticate with Docker Hub
 print("Authenticating with Docker Hub...")
 try:
-    login_command = f"echo {
-        docker_password} | docker login --username {docker_username} --password-stdin"
+    login_command = f"echo {docker_password} | docker login --username {docker_username} --password-stdin"
     run_command(login_command)
 except Exception as e:
     print(f"Failed to authenticate: {e}")
