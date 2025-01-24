@@ -6,7 +6,7 @@ container_name = "inventory"
 host_port = "5000"
 container_port = "80"
 docker_username = "crooper22@gmail.com"
-docker_password = "IloveIcecream2024!"
+docker_password = input("Docker hub password : ")
 
 
 def run_command(command):
