@@ -1,4 +1,5 @@
 import subprocess
+import pwinput
 
 # Variables
 docker_image = "crooper/web-apps-verifone:inventory"
@@ -6,7 +7,7 @@ container_name = "inventory"
 host_port = "5000"
 container_port = "80"
 docker_username = "crooper22@gmail.com"
-docker_password = input("Docker hub password : ")
+docker_password = pwinput.pwinput(prompt='DockerHub password : ', mask='*' )
 
 
 def run_command(command):

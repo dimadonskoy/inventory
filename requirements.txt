@@ -2,3 +2,4 @@ flask
 flask-mail
 gunicorn
 python-docx
+pwinput
